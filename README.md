@@ -15,7 +15,7 @@ Source of the lab website: academic profile, research write-ups, project pages a
 ## Structure
 ```
 src/pages/*.html   page bodies (first line: JSON title/description)
-src/style.css      design system (slate, sage, warm grey, silver)
+src/style.css      design system (bright blue, teal, white)
 assets/js/         site.js, forms.js, ai.js, hipcalc.js, biomech.js, glasses.js, eqcore.js, equipment.js
 assets/data/       WDBC model and results exported by medical-imaging-ai-research
 assets/vendor/     qrcode.js (Kazuhiko Arase, MIT)

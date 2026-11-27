@@ -61,10 +61,10 @@
       for (let F = 500; F <= 5000; F += 50) Fs.push([F, H.run(Object.assign({}, last, { F })).fat.n]);
       const nMax = Math.min(Math.max(...Fs.map(v => v[1])), 40), x = F => pad + (F - 500) / 4500 * (W - pad - 12), y = n => Ht - 30 - Math.min(n, nMax) / nMax * (Ht - 50);
       const d = Fs.map(([F, n], i) => `${i ? 'L' : 'M'}${x(F).toFixed(1)} ${y(n).toFixed(1)}`).join('');
-      const acts = Object.entries(H.ACTIVITIES).map(([k, F]) => { const n = H.run(Object.assign({}, last, { F })).fat.n; return `<circle cx="${x(F)}" cy="${y(n)}" r="5" fill="#3B4650" stroke="#fff"/>${W > 520 ? `<text x="${x(F) + 8}" y="${y(n) - 8}">${k}</text>` : ''}`; }).join('');
+      const acts = Object.entries(H.ACTIVITIES).map(([k, F]) => { const n = H.run(Object.assign({}, last, { F })).fat.n; return `<circle cx="${x(F)}" cy="${y(n)}" r="5" fill="#1565C0" stroke="#fff"/>${W > 520 ? `<text x="${x(F) + 8}" y="${y(n) - 8}">${k}</text>` : ''}`; }).join('');
       svg.innerHTML = `<g stroke="currentColor" stroke-opacity=".25"><path d="M${pad} ${Ht - 30}H${W - 12}M${pad} 20V${Ht - 30}"/></g>
         <path d="M${pad} ${y(1)}H${W - 12}" stroke="#A1262E" stroke-dasharray="5 4"/>
-        <path d="${d}" fill="none" stroke="#6E8C85" stroke-width="2.5"/>
+        <path d="${d}" fill="none" stroke="#00B3A4" stroke-width="2.5"/>
         <g font-size="12" fill="currentColor">${acts}<text x="${pad}" y="${Ht - 10}">500 N</text><text x="${W - 12}" y="${Ht - 10}" text-anchor="end">5,000 N</text>
         <text x="${pad + 4}" y="${y(1) - 6}" fill="#A1262E">n = 1</text><text x="4" y="24">n ${nMax.toFixed(0)}</text></g>`;
     };

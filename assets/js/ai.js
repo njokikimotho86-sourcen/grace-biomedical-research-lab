@@ -26,7 +26,7 @@
       const d = t.roc.fpr.map((f, i) => `${i ? 'L' : 'M'}${x(f).toFixed(1)} ${y(t.roc.tpr[i]).toFixed(1)}`).join('');
       roc.innerHTML = `<g stroke="currentColor" stroke-opacity=".25"><path d="M${x(0)} ${y(0)}H${x(1)}M${x(0)} ${y(0)}V${y(1)}"/></g>
         <path d="M${x(0)} ${y(0)}L${x(1)} ${y(1)}" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="4 4"/>
-        <path d="${d}" fill="none" stroke="#6E8C85" stroke-width="2.5"/>
+        <path d="${d}" fill="none" stroke="#00B3A4" stroke-width="2.5"/>
         <g font-size="12" fill="currentColor"><text x="${x(.5)}" y="${H - 8}" text-anchor="middle">1 − specificity</text><text x="12" y="${y(.5)}" transform="rotate(-90 12 ${y(.5)})" text-anchor="middle">sensitivity</text>
         <text x="${x(.55)}" y="${y(.2)}">AUC ${t.auc.toFixed(3)}</text></g>`;
     };
@@ -55,7 +55,7 @@
       const unchanged = cur.every((v, i) => v === tc.x[i]);
       $('ai-verdict').textContent = `Model output at threshold ${thr.toFixed(2)}: ${p >= thr ? 'malignant' : 'benign'}. Recorded diagnosis: ${tc.y ? 'malignant' : 'benign'}.` + (unchanged ? ` Python recorded p = ${tc.p.toFixed(4)} for this case.` : ' (features edited)');
       const order = c.map((v, i) => [v, i]).sort((a, b) => Math.abs(b[0]) - Math.abs(a[0])).slice(0, 8), cm = Math.max(...order.map(o => Math.abs(o[0])), 1e-9);
-      $('ai-contrib').innerHTML = order.map(([v, i]) => `<div class="bar"><span>${esc(M.features[i])}</span><i style="width:${100 * Math.abs(v) / cm}%;background:${v > 0 ? '#6E8C85' : '#9FB0C2'}"></i><span>${v > 0 ? '+' : ''}${v.toFixed(2)}</span></div>`).join('');
+      $('ai-contrib').innerHTML = order.map(([v, i]) => `<div class="bar"><span>${esc(M.features[i])}</span><i style="width:${100 * Math.abs(v) / cm}%;background:${v > 0 ? '#00B3A4' : '#9FB0C2'}"></i><span>${v > 0 ? '+' : ''}${v.toFixed(2)}</span></div>`).join('');
     };
     const thrMetrics = () => {
       const thr = +$('ai-thr').value; $('ai-thrv').textContent = thr.toFixed(2);
@@ -84,9 +84,9 @@
       for (const [v, y] of vals) b[y][Math.min(nb - 1, Math.floor((v - lo) / w))]++;
       const mx = Math.max(...b[0], ...b[1], 1), p = 30, bw = (W - p - 10) / nb;
       let s = '';
-      for (let k = 0; k < nb; k++) for (const y of [0, 1]) { const h = (H - p - 24) * b[y][k] / mx; s += `<rect x="${p + k * bw + (y ? bw / 2 : 1)}" y="${H - p - h}" width="${bw / 2 - 1}" height="${h}" fill="${y ? '#6E8C85' : '#9FB0C2'}"/>`; }
+      for (let k = 0; k < nb; k++) for (const y of [0, 1]) { const h = (H - p - 24) * b[y][k] / mx; s += `<rect x="${p + k * bw + (y ? bw / 2 : 1)}" y="${H - p - h}" width="${bw / 2 - 1}" height="${h}" fill="${y ? '#00B3A4' : '#9FB0C2'}"/>`; }
       hist.innerHTML = s + `<g font-size="12" fill="currentColor"><text x="${p}" y="${H - 10}">${lo.toPrecision(3)}</text><text x="${W - 10}" y="${H - 10}" text-anchor="end">${hi.toPrecision(3)}</text>
-        <rect x="${W - 190}" y="4" width="10" height="10" fill="#9FB0C2"/><text x="${W - 176}" y="13">benign</text><rect x="${W - 110}" y="4" width="10" height="10" fill="#6E8C85"/><text x="${W - 96}" y="13">malignant</text></g>`;
+        <rect x="${W - 190}" y="4" width="10" height="10" fill="#9FB0C2"/><text x="${W - 176}" y="13">benign</text><rect x="${W - 110}" y="4" width="10" height="10" fill="#00B3A4"/><text x="${W - 96}" y="13">malignant</text></g>`;
     };
     $('ai-feat').addEventListener('change', drawHist);
     new ResizeObserver(drawHist).observe(hist);
