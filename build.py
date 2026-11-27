@@ -130,9 +130,9 @@ def build_multi(ps):
     with open(os.path.join(dist, "robots.txt"), "w") as f:
         f.write("User-agent: *\nAllow: /\n" + (f"Sitemap: {BASE}/sitemap.xml\n" if BASE else ""))
     with open(os.path.join(dist, "_headers"), "w") as f:  # Cloudflare Pages / Netlify security headers
-        f.write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: SAMEORIGIN\n"
+        f.write("/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
                 "  Permissions-Policy: camera=(self), microphone=(), geolocation=()\n"
-                "  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; frame-ancestors 'self'\n")
+                "  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'\n")
     with open(os.path.join(dist, ".nojekyll"), "w") as f:
         f.write("")
     return dist
