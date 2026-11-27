@@ -179,7 +179,8 @@ def test_spa_routing(browser):
     errs = []
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(url + "/index.html#equipment")
-    assert pg.is_visible("#view-equipment") and not pg.is_visible("#view-index")
+    pg.wait_for_selector("#view-equipment", state="visible", timeout=10000)
+    assert not pg.is_visible("#view-index")
     pg.click('nav.main a[href="#ai-lab"]')
     assert pg.is_visible("#view-ai-lab")
     assert "97.4%" in pg.inner_text("#ai-stats")
