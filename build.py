@@ -98,7 +98,6 @@ def shell(p, body, link, css, scripts, inline_css=False, data_blocks=""):
 </main>
 <footer><div class="wrap g2">
 <div><strong>Grace Njoki Kimotho</strong><br>Biomedical Engineer · Nairobi, Kenya<br>Email: <a href="mailto:gnjoki705@gmail.com">gnjoki705@gmail.com</a></div>
-<div>Research demonstrations on this site are not clinically validated and are not medical devices. Equipment records are fictional. Last built {date.today().strftime('%d/%m/%Y')}.</div>
 </div></footer>
 {data_blocks}
 <script src="assets/js/site.js"></script>
