@@ -79,8 +79,8 @@ def shell(p, body, link, css, scripts, inline_css=False, data_blocks=""):
 {"<link rel=canonical href=" + chr(34) + canonical + chr(34) + ">" if BASE else ""}
 <meta property="og:title" content="{title}"><meta property="og:description" content="{p['desc']}">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0B2545">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E9F9A'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='white' text-anchor='middle'%3EGN%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#3B4650">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%236E8C85'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='white' text-anchor='middle'%3EGN%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;700&family=Red+Hat+Text:wght@400;600&display=swap" rel="stylesheet">
 {style}
