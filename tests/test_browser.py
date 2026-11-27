@@ -182,9 +182,10 @@ def test_spa_routing(browser):
     pg.wait_for_selector("#view-equipment", state="visible", timeout=10000)
     assert not pg.is_visible("#view-index")
     pg.click('nav.main a[href="#ai-lab"]')
-    assert pg.is_visible("#view-ai-lab")
+    pg.wait_for_selector("#view-ai-lab", state="visible", timeout=10000)
     assert "97.4%" in pg.inner_text("#ai-stats")
     pg.goto(url + "/index.html#biomechanics")
+    pg.wait_for_selector("#view-biomechanics", state="visible", timeout=10000)
     assert pg.locator("#bm-out .stat").count() >= 3
     pg.close(); s.shutdown()
     assert not errs, errs
