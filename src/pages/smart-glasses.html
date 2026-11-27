@@ -1,0 +1,47 @@
+<!--{"title":"Remote clinical support simulator","desc":"Smart glasses remote support simulator: technician view, remote expert console with annotation tools, equipment identification and guided troubleshooting for patient monitors and infusion pumps."}-->
+<section class="pagehead"><div class="wrap"><h1>Remote clinical support simulator</h1><p>How a biomedical engineer could guide a hospital technician through a fault, from the technician's glasses view and the expert's console.</p></div></section>
+<section class="band"><div class="wrap">
+<p class="note"><strong>Simulated.</strong> This page does not send video between people. Both views run in your browser; open the page in a second tab of the same browser to try the expert and technician roles side by side. The original project used Help Lightning on real smart glasses (see <a href="@research-smart-glasses">the research write-up</a>). Equipment shown is a generic, fictional drawing.</p>
+<div class="row" style="margin-bottom:16px">
+<div><label for="sg-role">Show</label><select id="sg-role"><option value="both">Both views</option><option value="tech">Technician view only</option><option value="expert">Expert console only</option></select></div>
+<div><label for="sg-dev">Equipment</label><select id="sg-dev"><option value="monitor">Patient monitor</option><option value="pump">Infusion pump</option></select></div>
+<div><label for="sg-scn">Scenario</label><select id="sg-scn"></select></div>
+<div><label for="sg-file">Use your own photo as the feed</label><input type="file" id="sg-file" accept="image/*"></div>
+</div>
+<div class="btns" style="margin:-4px 0 16px"><button class="btn ghost small" id="sg-cam" type="button">Try device camera</button><button class="btn ghost small" id="sg-reset" type="button">Back to drawing</button><span class="statl" id="sg-camst"></span></div>
+<div class="g2">
+<section class="card" id="sg-tech" aria-label="Technician view">
+<h3>Technician · smart-glasses view <span class="tag" id="sg-live">session idle</span></h3>
+<div class="sgstage" id="sg-stageT"></div>
+<div class="card" style="margin-top:12px;background:var(--bg)"><div class="statl">Instruction in view</div><p id="sg-hud" style="margin:4px 0 0;font-weight:600">Start a session to receive guidance.</p></div>
+<div class="btns"><button class="btn small" id="sg-start" type="button">Call expert</button><button class="btn ghost small" id="sg-id" type="button" aria-pressed="false">Identify parts: off</button></div>
+<div id="sg-part" class="statl" aria-live="polite" style="margin-top:8px"></div>
+</section>
+<section class="card" id="sg-expert" aria-label="Expert console">
+<h3>Remote expert console</h3>
+<div class="sgstage" id="sg-stageE"></div>
+<div class="tabs" style="margin-top:12px" aria-label="Annotation tools" id="sg-tools">
+<button type="button" data-tool="pen" aria-pressed="true">Pen</button><button type="button" data-tool="arrow" aria-pressed="false">Arrow</button><button type="button" data-tool="circle" aria-pressed="false">Circle</button>
+<button type="button" id="sg-undo">Undo</button><button type="button" id="sg-clear">Clear</button>
+<select id="sg-col" aria-label="Colour" style="width:auto"><option value="#FF3B6B">Red</option><option value="#18E0D0">Teal</option><option value="#FFD23F">Yellow</option></select>
+</div>
+<h3 class="sec">Guided troubleshooting</h3>
+<div id="sg-step" aria-live="polite"></div>
+<label for="sg-msg">Send a custom instruction</label>
+<div class="row"><input id="sg-msg" maxlength="160" placeholder="e.g. Hold the probe connector up to the camera"><button class="btn small" id="sg-send" type="button" style="flex:0 0 auto">Send</button></div>
+</section>
+</div>
+<div class="g2 sec">
+<div class="card"><h3>Session log</h3><ol id="sg-log" class="statl" style="max-height:260px;overflow:auto"></ol><div class="btns"><button class="btn ghost small" id="sg-copy" type="button">Copy session report</button><span class="statl" id="sg-copied"></span></div></div>
+<div class="card"><h3>Original project versus new features</h3>
+<table class="stack"><thead><tr><th>Feature</th><th>Original (2026)</th><th>This simulator</th></tr></thead><tbody>
+<tr><td>Live point-of-view video to a remote expert</td><td>Yes, via Help Lightning</td><td>No (same-browser only)</td></tr>
+<tr><td>Expert drawing merged into the wearer's view</td><td>Yes</td><td>Yes, simulated</td></tr>
+<tr><td>Voice</td><td>Yes</td><td>No; text instructions</td></tr>
+<tr><td>Equipment part identification</td><td>No</td><td>Yes (tap labelled hotspots, not computer vision)</td></tr>
+<tr><td>Structured troubleshooting scripts</td><td>No</td><td>Yes</td></tr>
+<tr><td>Session report for maintenance records</td><td>No</td><td>Yes</td></tr>
+</tbody></table></div>
+</div>
+<style>.sgstage{position:relative;aspect-ratio:4/3;background:#0A1A30;border-radius:10px;overflow:hidden;touch-action:none}.sgstage>*{position:absolute;inset:0;width:100%;height:100%}.sgstage img,.sgstage video{object-fit:cover}.sgstage .hs{position:absolute;inset:auto;width:auto;height:auto;transform:translate(-50%,-50%);min-width:44px;min-height:44px;border-radius:50%;border:2px dashed #18E0D0;background:rgba(24,224,208,.12);cursor:pointer}</style>
+</div></section>

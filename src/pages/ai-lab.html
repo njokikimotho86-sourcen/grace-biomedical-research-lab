@@ -1,0 +1,92 @@
+<!--{"title":"Medical imaging AI lab","desc":"Explainable medical AI research demonstrations: a trained breast cancer classifier running in the browser with real held-out metrics, and a PneumoniaMNIST CNN pipeline with Grad-CAM."}-->
+<section class="pagehead"><div class="wrap"><h1>Medical imaging AI lab</h1><p>A real model, trained and evaluated in this session, that you can run here. Every number on this page is read from the experiment's output file.</p></div></section>
+<section class="band"><div class="wrap">
+<p class="note"><strong>Research demonstration only.</strong> This is not a clinically validated diagnostic system and must not be used to make decisions about any patient.</p>
+<div class="tabs" data-tabs="ai"><button data-tab="results">Results</button><button data-tab="run">Run the model</button><button data-tab="data">Dataset</button><button data-tab="cnn">Chest X-ray CNN</button><button data-tab="limits">Limitations</button></div>
+
+<div data-panel="ai:results">
+<h2>Experiment 1: breast mass classification from image-derived features</h2>
+<p id="ai-summary"></p>
+<div class="grid" id="ai-stats" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))"></div>
+<div class="g2 sec">
+<div class="card"><h3>Confusion matrix, held-out test set</h3><div id="ai-cm"></div></div>
+<div class="card"><h3>ROC curve, held-out test set</h3><div class="fig" style="min-height:280px"><svg id="ai-roc" aria-label="ROC curve"></svg></div></div>
+</div>
+<div class="g2 sec">
+<div class="card"><h3>Explainability: permutation importance</h3><p class="statl">Mean drop in test AUC when one feature is shuffled (30 repeats). Larger means the model relies on it more.</p><div id="ai-perm"></div></div>
+<div class="card"><h3>Error analysis</h3><div id="ai-err"></div><p class="statl" style="margin-top:10px">False negatives (a malignant mass called benign) are the costlier error for screening. Lowering the threshold in the next tab trades false positives for fewer of them.</p></div>
+</div>
+</div>
+
+<div data-panel="ai:run" hidden>
+<h2>Run the trained model</h2>
+<p>The browser computes the probability from the exact fitted scaler and logistic-regression weights. Pick one of the 114 held-out test cases, then adjust its features to see how the prediction responds.</p>
+<div class="g2">
+<div class="card">
+<label for="ai-case">Held-out test case</label><select id="ai-case"></select>
+<div id="ai-sliders"></div>
+<button class="btn ghost small" id="ai-reset" style="margin-top:12px">Reset to recorded values</button>
+</div>
+<div class="card">
+<div class="statl">Probability of malignancy</div><div class="stat" id="ai-p">–</div>
+<div class="bar" style="grid-template-columns:1fr"><i id="ai-pbar" style="width:0"></i></div>
+<p id="ai-verdict"></p>
+<h3 class="sec">Why: contribution of each feature</h3><p class="statl">Weight × standardised value. Teal pushes towards malignant, silver towards benign.</p><div id="ai-contrib"></div>
+<h3 class="sec">Decision threshold</h3>
+<label for="ai-thr">Threshold: <span id="ai-thrv">0.50</span></label><input type="range" id="ai-thr" min="0.05" max="0.95" step="0.01" value="0.5">
+<div id="ai-thrm" class="statl"></div>
+</div>
+</div>
+</div>
+
+<div data-panel="ai:data" hidden>
+<h2>Wisconsin Diagnostic Breast Cancer dataset</h2>
+<p>569 breast masses (212 malignant, 357 benign). Each row holds 30 measurements of cell nuclei taken from a digitised image of a fine-needle aspirate: the mean, standard error and worst value of ten properties such as radius, texture and concave points (Street, Wolberg and Mangasarian, 1993). Licence: CC BY 4.0 (UCI Machine Learning Repository); bundled with scikit-learn.</p>
+<p><strong>Why this dataset first:</strong> the build environment could not reach the MedMNIST download servers, so a complete, honest experiment was run on data available offline. The chest X-ray pipeline is ready to train on Colab.</p>
+<p><strong>Preprocessing:</strong> stratified 60/20/20 split into training (341), validation (114) and test (114); standardisation fitted on training data only; test set used once for the final report.</p>
+<div class="row"><div><label for="ai-feat">Feature</label><select id="ai-feat"></select></div></div>
+<div class="card sec"><h3 id="ai-hist-t">Distribution in the test set by diagnosis</h3><div class="fig" style="min-height:260px"><svg id="ai-hist" aria-label="Histogram"></svg></div></div>
+<div class="scroll sec"><table class="stack" id="ai-ftab"><thead><tr><th>Feature</th><th class="n">Mean, benign</th><th class="n">Mean, malignant</th><th class="n">Range</th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<div data-panel="ai:cnn" hidden>
+<h2>Experiment 2: PneumoniaMNIST chest X-ray CNN <span class="tag wip">Pipeline ready, not yet trained</span></h2>
+<p>PneumoniaMNIST (MedMNIST v2; Yang et al., 2023) contains 5,856 paediatric chest X-rays derived from Kermany et al. (2018), resized to 28 × 28, with official splits of 4,708 training, 524 validation and 624 test images. Licence: CC BY 4.0. The task is normal versus pneumonia.</p>
+<div class="card"><h3>Model architecture</h3>
+<svg viewBox="0 0 760 150" style="width:100%;height:auto" role="img" aria-label="Input 1x28x28, three convolution blocks of 16, 32 and 64 channels, global average pooling, linear layer to 2 classes">
+<g font-family="Red Hat Text" font-size="13" fill="currentColor" text-anchor="middle">
+<rect x="5" y="45" width="100" height="60" rx="8" fill="none" stroke="#8FA3B8" stroke-width="2"/><text x="55" y="72">Input</text><text x="55" y="90" font-size="11.5">1×28×28</text>
+<rect x="135" y="35" width="120" height="80" rx="8" fill="#0E9F9A" fill-opacity=".15" stroke="#0E9F9A" stroke-width="2"/><text x="195" y="66">Conv block</text><text x="195" y="84" font-size="11.5">16 ch, pool → 14²</text>
+<rect x="285" y="35" width="120" height="80" rx="8" fill="#0E9F9A" fill-opacity=".25" stroke="#0E9F9A" stroke-width="2"/><text x="345" y="66">Conv block</text><text x="345" y="84" font-size="11.5">32 ch, pool → 7²</text>
+<rect x="435" y="35" width="120" height="80" rx="8" fill="#0E9F9A" fill-opacity=".35" stroke="#0E9F9A" stroke-width="2"/><text x="495" y="66">Conv block</text><text x="495" y="84" font-size="11.5">64 ch · Grad-CAM</text>
+<rect x="585" y="45" width="80" height="60" rx="8" fill="none" stroke="#8FA3B8" stroke-width="2"/><text x="625" y="72">GAP</text><text x="625" y="90" font-size="11.5">64</text>
+<rect x="690" y="45" width="65" height="60" rx="8" fill="none" stroke="#8FA3B8" stroke-width="2"/><text x="722" y="72">Linear</text><text x="722" y="90" font-size="11.5">2</text>
+<path d="M105 75h28M255 75h28M405 75h28M555 75h28M665 75h23" stroke="#8FA3B8" stroke-width="2"/></g></svg>
+<p class="statl">Each conv block: two 3×3 convolutions with batch normalisation and ReLU. Class-weighted cross-entropy (the training set is about 74% pneumonia); model selected on validation AUC; decision threshold set on validation by Youden's J, then applied unchanged to the test set.</p>
+</div>
+<div class="g2 sec">
+<div><h3>Workflow</h3><ol><li>Download PneumoniaMNIST with the <code>medmnist</code> package.</li><li>Scale to [0, 1], z-normalise with training statistics only.</li><li>Train 15 epochs with Adam (lr 0.001, batch 128, seed 42).</li><li>Report accuracy, precision, sensitivity, specificity, F1, AUC and the confusion matrix on the test set.</li><li>Grad-CAM heat maps on the last conv block for correct and incorrect cases.</li><li>Error analysis of false negatives first.</li></ol></div>
+<div><h3>Status</h3><p>The code passes its unit tests (forward pass, one training epoch, probabilities in range, Grad-CAM map shape) on random tensors. Those tests check the code runs; they say nothing about accuracy. No X-ray results or sample images are shown until a real training run is completed on Google Colab with the notebook in the <code>medical-imaging-ai-research</code> repository.</p></div>
+</div>
+</div>
+
+<div data-panel="ai:limits" hidden>
+<h2>Limitations</h2>
+<ul>
+<li>WDBC is small (569 cases) from one institution in the early 1990s; performance will not transfer unchanged to other populations, labs or imaging equipment.</li>
+<li>The features were measured from images by an analyst-guided system; the model never sees raw pixels.</li>
+<li>One random split; the 5-fold cross-validation AUC on the training set is reported alongside to show variability.</li>
+<li>Permutation importance measures what this model relies on, not biological causation. Correlated features share importance.</li>
+<li>PneumoniaMNIST images are 28 × 28, far below clinical resolution, and the source set is paediatric.</li>
+<li>No external validation, no prospective testing and no regulatory review.</li>
+</ul>
+<h2 class="sec">References</h2>
+<ol class="refs">
+<li>Street WN, Wolberg WH, Mangasarian OL. Nuclear feature extraction for breast tumor diagnosis. <em>Proc. SPIE 1905, Biomedical Image Processing and Biomedical Visualization</em>. 1993:861–870. doi:10.1117/12.148698</li>
+<li>Yang J, Shi R, Wei D, et al. MedMNIST v2: a large-scale lightweight benchmark for 2D and 3D biomedical image classification. <em>Scientific Data</em>. 2023;10:41. doi:10.1038/s41597-022-01721-8</li>
+<li>Kermany DS, Goldbaum M, Cai W, et al. Identifying medical diagnoses and treatable diseases by image-based deep learning. <em>Cell</em>. 2018;172(5):1122–1131. doi:10.1016/j.cell.2018.02.010</li>
+<li>Selvaraju RR, Cogswell M, Das A, Vedantam R, Parikh D, Batra D. Grad-CAM: visual explanations from deep networks via gradient-based localization. <em>Proc. IEEE ICCV</em>. 2017:618–626.</li>
+<li>Cardoso MJ, Li W, Brown R, et al. MONAI: an open-source framework for deep learning in healthcare. arXiv:2211.02701. 2022.</li>
+</ol>
+</div>
+</div></section>

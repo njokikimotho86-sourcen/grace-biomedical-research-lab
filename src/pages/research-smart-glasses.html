@@ -1,0 +1,39 @@
+<!--{"title":"Smart glasses for remote clinical support","desc":"Final-year project integrating Help Lightning remote assistance with smart glasses so a remote expert can guide on-site health workers. Ranked Top 4 of about 60 groups."}-->
+<section class="pagehead"><div class="wrap"><span class="tag done" style="border-color:#7FE0DA;color:#7FE0DA">Final-year project · Kirinyaga University · 2026</span><h1>Improving smart glasses by merging reality visualisation through Help Lightning</h1><p>Project Team Leader: Grace Njoki Kimotho · Team: Praise Nyambura, Phoebe Wangari · Ranked Top 4 of about 60 student groups</p></div></section>
+<section class="band"><div class="wrap">
+<nav class="toc" aria-label="Sections"><a data-jump href="#sg-problem">Problem</a><a data-jump href="#sg-solution">Solution</a><a data-jump href="#sg-arch">Architecture</a><a data-jump href="#sg-role">Grace's role</a><a data-jump href="#sg-limits">Limitations</a><a data-jump href="#sg-next">Next</a></nav>
+<div class="g2">
+<div>
+<h2 id="sg-problem">Research problem</h2>
+<p>Many hospitals and clinics, especially outside major cities, do not have specialists or experienced engineers on site. When a complex procedure or equipment fault arises, staff often wait for an expert to travel. The project explored how smart glasses could bring that expert to the bedside virtually.</p>
+<h3>Research question</h3><p>Can a remote expert, seeing exactly what an on-site health worker sees, guide them step by step through a task in real time?</p>
+<h2 id="sg-solution" class="sec">Solution</h2>
+<p>The team integrated Help Lightning remote-assistance software with smart glasses. The wearer streams their point of view; the remote expert sees the scene, points, draws and guides, and that guidance is merged into the wearer's view. The working system was demonstrated live to the assessment panel.</p>
+</div>
+<div class="card" id="sg-arch">
+<h3>System architecture (original project)</h3>
+<svg viewBox="0 0 460 230" role="img" aria-label="Glasses stream video to Help Lightning, which relays to the expert, whose annotations return to the glasses" style="width:100%;height:auto">
+<g font-family="Red Hat Text" font-size="13" fill="currentColor">
+<rect x="10" y="80" width="120" height="70" rx="10" fill="none" stroke="#0E9F9A" stroke-width="2"/><text x="70" y="110" text-anchor="middle">Smart glasses</text><text x="70" y="128" text-anchor="middle" font-size="11.5">on-site worker</text>
+<rect x="170" y="80" width="120" height="70" rx="10" fill="none" stroke="#8FA3B8" stroke-width="2"/><text x="230" y="110" text-anchor="middle">Help Lightning</text><text x="230" y="128" text-anchor="middle" font-size="11.5">merged reality</text>
+<rect x="330" y="80" width="120" height="70" rx="10" fill="none" stroke="#0E9F9A" stroke-width="2"/><text x="390" y="110" text-anchor="middle">Remote expert</text><text x="390" y="128" text-anchor="middle" font-size="11.5">phone / PC</text>
+<path d="M130 100 H168M290 100 H328" stroke="#0E9F9A" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M328 132 H292M168 132 H132" stroke="#8FA3B8" stroke-width="2" marker-end="url(#ar2)"/>
+<text x="230" y="50" text-anchor="middle" font-size="12">point-of-view video →</text><text x="230" y="185" text-anchor="middle" font-size="12">← pointing, drawing, voice guidance</text>
+</g>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0E9F9A"/></marker><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8FA3B8"/></marker></defs>
+</svg>
+<p class="note"><strong>To verify:</strong> the smart-glasses model, network set-up and test scenarios used in the final demonstration, for the full technical write-up.</p>
+</div>
+</div>
+<h2 id="sg-role" class="sec">Grace's role</h2>
+<div class="grid">
+<div class="card"><h3>Leadership</h3><p>Planned the project, divided tasks, set milestones and kept the team on track from proposal to final demonstration.</p></div>
+<div class="card"><h3>Integration and testing</h3><p>Coordinated system integration and testing, solved technical problems as they arose, and led the technical documentation.</p></div>
+<div class="card"><h3>Presentation</h3><p>Led preparation for the final evaluation and presented and demonstrated the working system live.</p></div>
+</div>
+<h2 id="sg-limits" class="sec">Limitations</h2>
+<ul><li>Depends on network bandwidth and latency, which vary widely between Kenyan facilities.</li><li>Commercial software licence; cost and data-governance questions for public hospitals.</li><li>Patient privacy when streaming clinical scenes needs consent and policy controls.</li><li>Evaluated as a student demonstration, not a clinical trial.</li></ul>
+<h2 id="sg-next" class="sec">What has been added since</h2>
+<p>The <a href="@smart-glasses">remote support simulator</a> on this site is new work, built to show the workflow (equipment identification, annotation, guided troubleshooting, session reports) without the commercial platform. It does not stream real video between people.</p>
+</div></section>

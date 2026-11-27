@@ -1,0 +1,56 @@
+<!--{"title":"Hip implant wear and fatigue","desc":"Finite element reproduction study of wear and fatigue at the femoral head and stem taper of a total hip implant, using CATIA V5 and ANSYS Workbench."}-->
+<section class="pagehead"><div class="wrap"><span class="tag done" style="border-color:#7FE0DA;color:#7FE0DA">Research and design project · 2026</span><h1>Finite element analysis of wear and fatigue at the hip implant head–stem interface</h1><p>Software: CATIA V5, ANSYS Workbench 2024 R2</p></div></section>
+<section class="band"><div class="wrap">
+<nav class="toc" aria-label="Sections"><a data-jump href="#hp-problem">Problem</a><a data-jump href="#hp-question">Question</a><a data-jump href="#hp-lit">Literature</a><a data-jump href="#hp-method">Method</a><a data-jump href="#hp-impl">Implementation</a><a data-jump href="#hp-results">Results</a><a data-jump href="#hp-limits">Limitations</a><a data-jump href="#hp-refs">References</a></nav>
+<div class="g2">
+<div>
+<h2 id="hp-problem">Research problem</h2>
+<p>In total hip replacement the modular connection between the femoral head and the stem taper is exposed to repeated loading and small relative movements. Wear particles released from this taper can cause inflammation, bone loss (osteolysis) and, in severe cases, revision surgery.</p>
+<h2 id="hp-question" class="sec">Research question</h2>
+<p>Can the wear and fatigue trends reported in the finite element study by Belwanshi, Jayaswal and Aherwar (2021) be reproduced independently, and where they differ, can the differences be explained?</p>
+<h3>Objectives</h3>
+<ol><li>Rebuild the implant from published dimensions in CATIA V5, with head and stem as separate bodies.</li><li>Establish a mesh-independent ANSYS model at the head–taper contact.</li><li>Compare three head–stem material pairs under three daily activities.</li><li>Estimate linear and volumetric wear (modified Archard) and fatigue life and safety factor (stress–life with Goodman correction).</li><li>Document every assumption so differences from the published study can be traced.</li></ol>
+<h2 id="hp-lit" class="sec">Background and literature</h2>
+<p>Hip contact forces during routine activities were measured in vivo with instrumented implants by Bergmann et al. (2001); those standardised loads are the basis of the load cases here. Archard's law (1953) relates wear volume to load and sliding distance and, in its modified form, gives linear wear as wear coefficient × contact pressure × sliding distance. Fatigue was assessed with the stress–life method and the Goodman mean-stress correction as presented in standard machine-design texts (Budynas and Nisbett). The target study is Belwanshi, Jayaswal and Aherwar (2021).</p>
+<p class="note"><strong>To complete:</strong> a fuller literature review of taper corrosion and fretting (trunnionosis) studies will be added. Only sources Grace has read and verified will be listed.</p>
+</div>
+<div>
+<div class="card">
+<h3>Model at a glance</h3>
+<dl class="kv">
+<dt>Femoral head</dt><dd>45 mm</dd><dt>Neck</dt><dd>35 mm long, 18 mm diameter</dd><dt>Head angle</dt><dd>135°</dd><dt>Stem</dt><dd>128 mm intramedullary</dd>
+<dt>Elements</dt><dd>Quadratic tetrahedra, refined at the head–taper contact</dd><dt>Mesh study</dt><dd>1.5, 1.0 and 0.75 mm; select at &lt;5% change</dd>
+<dt>Contact</dt><dd>Frictional, augmented Lagrange, large deflection on</dd><dt>Boundary</dt><dd>Distal stem fixed</dd>
+</dl>
+</div>
+<div class="card" style="margin-top:18px">
+<h3>Load and material matrix</h3>
+<div class="scroll"><table><thead><tr><th>Activity</th><th class="n">Resultant load</th></tr></thead><tbody><tr><td>Sitting down</td><td class="n">1,360 N</td></tr><tr><td>Standing up</td><td class="n">1,600 N</td></tr><tr><td>Stance</td><td class="n">2,077 N</td></tr></tbody></table></div>
+<p style="margin-top:10px">Material pairs (head–stem): CoCrMo–alumina, Ti6Al4V–alumina, CoCrMo–Ti6Al4V. Each resultant load was resolved into x, y and z components and vector-checked.</p>
+</div>
+</div>
+</div>
+<h2 id="hp-method" class="sec">Methodology</h2>
+<div class="grid">
+<div class="card"><h3>1. Geometry</h3><p>Implant rebuilt in CATIA V5 from published dimensions; every assumed dimension logged in a CAD construction record.</p></div>
+<div class="card"><h3>2. Mesh</h3><p>Quadratic tetrahedral mesh, refined at the taper. Three-level independence study with a below-5% change criterion.</p></div>
+<div class="card"><h3>3. Loads and materials</h3><p>Three activities × three material pairs = nine cases, each with its own run sheet.</p></div>
+<div class="card"><h3>4. Solver</h3><p>Frictional contact with augmented Lagrange; force and displacement convergence checked for every case.</p></div>
+<div class="card"><h3>5. Wear</h3><p>Modified Archard: linear wear = contact pressure × sliding distance × wear coefficient; volumetric wear over the contact area.</p></div>
+<div class="card"><h3>6. Fatigue</h3><p>Stress–life with Goodman correction to estimate fatigue life and safety factor per case.</p></div>
+</div>
+<h2 id="hp-impl" class="sec">Technical implementation and rigour</h2>
+<p>The study kept a full reproducibility record: an uncertainty register, a simulation run sheet for every case, and a structured comparison of trends against the published study. The interactive <a href="@biomechanics">biomechanics lab</a> on this site re-implements the closed-form parts of the method (neck stress, Goodman, Archard) so that readers can explore sensitivities; it is a teaching companion to the ANSYS model, not a replacement.</p>
+<h2 id="hp-results" class="sec">Results</h2>
+<p class="note"><strong>Not yet published here.</strong> The ANSYS stress, contact-pressure, wear and fatigue outputs for the nine cases are held in Grace's project records. They will be added with their run sheets once she has selected the figures to release. No numbers are shown until then, and no physical wear or fatigue testing was carried out.</p>
+<h2 id="hp-limits" class="sec">Limitations</h2>
+<ul><li>Geometry rebuilt from published dimensions; any undocumented features of the original model may differ.</li><li>Static peak loads per activity, not full gait-cycle loading.</li><li>Wear coefficient and material data taken from literature; results scale directly with the chosen coefficient.</li><li>No bone, cement or patient-specific anatomy; distal stem fixed.</li><li>Computational results only; no experimental validation.</li></ul>
+<h2 id="hp-refs" class="sec">References</h2>
+<ol class="refs">
+<li>Belwanshi M, Jayaswal P, Aherwar A. (2021). Finite element study of hip implant wear and fatigue. <em>Full title, journal and DOI to be confirmed from Grace's project report.</em></li>
+<li>Bergmann G, Deuretzbacher G, Heller M, Graichen F, Rohlmann A, Strauss J, Duda GN. Hip contact forces and gait patterns from routine activities. <em>Journal of Biomechanics</em>. 2001;34(7):859–871. doi:10.1016/S0021-9290(01)00040-9</li>
+<li>Archard JF. Contact and rubbing of flat surfaces. <em>Journal of Applied Physics</em>. 1953;24(8):981–988. doi:10.1063/1.1721448</li>
+<li>Budynas RG, Nisbett JK. <em>Shigley's Mechanical Engineering Design</em>. 10th ed. McGraw-Hill; 2015.</li>
+<li>Johnson KL. <em>Contact Mechanics</em>. Cambridge University Press; 1985.</li>
+</ol>
+</div></section>

@@ -1,0 +1,87 @@
+<!--{"title":"Computational biomechanics lab","desc":"Interactive hip implant calculator: neck stress, strain, Goodman fatigue safety factor, Hertz contact pressure, Archard wear, sensitivity analysis and a mesh independence checker."}-->
+<section class="pagehead"><div class="wrap"><h1>Computational biomechanics lab</h1><p>Explore the hip implant study with closed-form engineering calculations. Change a load, a material or a dimension and every result updates.</p></div></section>
+<section class="band"><div class="wrap">
+<div class="card" style="margin-bottom:20px">
+<h3>What kind of result is this?</h3>
+<div class="scroll"><table class="stack"><thead><tr><th>Evidence type</th><th>On this page</th></tr></thead><tbody>
+<tr><td>Experimental results</td><td>None. No physical wear or fatigue testing has been carried out.</td></tr>
+<tr><td>ANSYS results</td><td>Held in Grace's project records; not shown until released. Enter them in the mesh study tool to check convergence.</td></tr>
+<tr><td>Python / JavaScript calculations</td><td>Everything below: beam, Goodman, Hertz and Archard formulas, cross-checked by an independent Python implementation in automated tests.</td></tr>
+<tr><td>Illustrative</td><td>The colour on the homepage drawing; default wear coefficient, micromotion and taper inputs (replace them with your own).</td></tr>
+<tr><td>Proposed future simulations</td><td>Full gait-cycle loading, bone and cement, taper corrosion, physical validation.</td></tr>
+</tbody></table></div>
+<p class="note" style="margin-bottom:0"><strong>Simplified model.</strong> Treating the neck as a cantilever and the head–cup as Hertz contact gives orders of magnitude and trends. It is not equivalent to the validated finite element model and must not be used for implant design decisions.</p>
+</div>
+
+<div class="g2">
+<form class="card" id="bm-form" novalidate>
+<h3>Inputs</h3>
+<label for="bm-act">Activity preset (Bergmann et al. loads used in the study)</label><select id="bm-act"></select>
+<div class="row">
+<div><label for="bm-F">Applied force F (N)</label><input id="bm-F" type="number" min="1" max="20000" step="1" value="2077" required></div>
+<div><label for="bm-th">Load angle to neck axis θ (°) · assumed</label><input id="bm-th" type="number" min="0" max="90" step="1" value="30" required></div>
+</div>
+<div class="row">
+<div><label for="bm-d">Neck diameter d (mm)</label><input id="bm-d" type="number" min="4" max="40" step="0.1" value="18" required></div>
+<div><label for="bm-L">Lever arm L (mm)</label><input id="bm-L" type="number" min="0" max="80" step="0.5" value="35" required></div>
+</div>
+<div class="row">
+<div><label for="bm-stem">Stem material</label><select id="bm-stem"></select></div>
+<div><label for="bm-R">Load ratio R = Fmin/Fmax</label><input id="bm-R" type="number" min="0" max="0.95" step="0.05" value="0.1" required></div>
+</div>
+<h3 class="sec">Bearing contact (head on cup)</h3>
+<div class="row">
+<div><label for="bm-head">Head material</label><select id="bm-head"></select></div>
+<div><label for="bm-cup">Cup material</label><select id="bm-cup"></select></div>
+</div>
+<div class="row">
+<div><label for="bm-D">Head diameter D (mm)</label><input id="bm-D" type="number" min="22" max="60" step="1" value="45" required></div>
+<div><label for="bm-c">Radial clearance c (mm) · illustrative</label><input id="bm-c" type="number" min="0.01" max="2" step="0.01" value="0.10" required></div>
+</div>
+<h3 class="sec">Wear inputs · illustrative, replace with literature or ANSYS values</h3>
+<div class="row">
+<div><label for="bm-k">Wear coefficient k (mm³/N·m)</label><input id="bm-k" type="number" min="1e-12" step="any" value="1e-7" required></div>
+<div><label for="bm-arc">Flexion–extension arc (°)</label><input id="bm-arc" type="number" min="1" max="120" value="40" required></div>
+</div>
+<div class="row">
+<div><label for="bm-cyc">Cycles per year</label><input id="bm-cyc" type="number" min="1" step="any" value="1000000" required></div>
+<div><label for="bm-yr">Years</label><input id="bm-yr" type="number" min="1" max="40" value="10" required></div>
+</div>
+<div class="row">
+<div><label for="bm-tp">Taper contact pressure p (MPa, from ANSYS)</label><input id="bm-tp" type="number" min="0.1" step="any" value="50" required></div>
+<div><label for="bm-dl">Taper micromotion δ (µm/cycle, from ANSYS)</label><input id="bm-dl" type="number" min="0.01" step="any" value="5" required></div>
+</div>
+<div class="row">
+<div><label for="bm-dT">Taper mean diameter (mm)</label><input id="bm-dT" type="number" min="1" step="0.1" value="13" required></div>
+<div><label for="bm-LT">Taper engagement length (mm)</label><input id="bm-LT" type="number" min="1" step="0.1" value="12" required></div>
+</div>
+<div class="msg err" id="bm-err" role="alert"></div>
+</form>
+
+<div>
+<div class="card" id="bm-out" aria-live="polite"></div>
+<div class="card sec"><h3>Safety factor against applied force</h3><p class="statl">Goodman safety factor of the neck; dots mark the three activities.</p><div class="fig" style="min-height:260px"><svg id="bm-curve" aria-label="Safety factor versus force"></svg></div></div>
+<div class="card sec"><h3>Sensitivity: ±10% change in each input</h3><p class="statl">Effect on the Goodman safety factor, largest first.</p><div id="bm-sens"></div></div>
+</div>
+</div>
+
+<div class="g2 sec">
+<div class="card">
+<h3>Mesh independence check</h3>
+<p>Enter the peak value (for example von Mises stress in MPa at the taper) from each ANSYS mesh level. The study accepts a mesh when the change from the previous level is below 5%.</p>
+<div class="row"><div><label for="ms1">1.5 mm mesh</label><input id="ms1" type="number" step="any" placeholder="enter ANSYS value"></div><div><label for="ms2">1.0 mm mesh</label><input id="ms2" type="number" step="any" placeholder="enter ANSYS value"></div><div><label for="ms3">0.75 mm mesh</label><input id="ms3" type="number" step="any" placeholder="enter ANSYS value"></div></div>
+<div id="ms-out" class="sec" aria-live="polite"><p class="statl">Waiting for values.</p></div>
+</div>
+<div class="card">
+<h3>Equations used</h3>
+<ul>
+<li>Neck: A = πd²/4, σ<sub>axial</sub> = F cosθ / A, σ<sub>bending</sub> = 32 F sinθ L / (πd³), σ<sub>max</sub> = σ<sub>axial</sub> + σ<sub>bending</sub>; strain ε = σ/E.</li>
+<li>Equivalent stress (conservative): √(σ<sub>max</sub>² + 3τ²) with τ = 4V/(3A).</li>
+<li>Goodman: σ<sub>a</sub>/S<sub>e</sub> + σ<sub>m</sub>/S<sub>u</sub> = 1/n (ductile metals only).</li>
+<li>Hertz, ball in cup: R′ = R₁R₂/(R₂ − R₁), 1/E* = (1−ν₁²)/E₁ + (1−ν₂²)/E₂, a = (3FR′/4E*)^⅓, p₀ = 3F/(2πa²). Invalid when a is large relative to R₁ (conformal contact).</li>
+<li>Archard, bearing: V = k F s. Taper (modified): h = k p δ N, V = h × engaged area.</li>
+</ul>
+<p class="statl">Material values are typical handbook figures; confirm against the ANSYS Engineering Data source used in the study.</p>
+</div>
+</div>
+</div></section>

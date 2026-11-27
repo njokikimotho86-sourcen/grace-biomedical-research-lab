@@ -1,0 +1,72 @@
+<!--{"title":"Hospital equipment intelligence","desc":"Biomedical equipment management system: register equipment with QR identifiers, schedule preventive maintenance, log breakdowns and repairs, and analyse downtime, MTBF, MTTR and availability."}-->
+<section class="pagehead"><div class="wrap"><h1>Hospital equipment intelligence</h1><p>Inventory, preventive maintenance, breakdowns and reliability analytics for a biomedical engineering department.</p></div></section>
+<section class="band"><div class="wrap">
+<p class="note"><strong>Demonstration data.</strong> All records are fictional (“Demo Medical Co.”) and contain nothing from Paula Solutions Limited or any hospital. Your changes are saved only in this browser.</p>
+<div class="tabs" data-tabs="eq"><button data-tab="dash">Dashboard</button><button data-tab="inv">Inventory</button><button data-tab="reg">Register / edit</button><button data-tab="mnt">Maintenance</button><button data-tab="rep">Reports</button></div>
+
+<div data-panel="eq:dash">
+<div class="row"><div style="flex:0 1 220px"><label for="eq-win">Analysis window</label><select id="eq-win"><option value="90">Last 90 days</option><option value="180">Last 180 days</option><option value="365" selected>Last 12 months</option></select></div></div>
+<div class="grid sec" id="eq-kpi" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))"></div>
+<div class="g2 sec">
+<div class="card"><h3>Equipment by status</h3><div id="eq-status"></div><h3 class="sec">By department</h3><div id="eq-dept"></div></div>
+<div class="card"><h3>Breakdowns per month</h3><div id="eq-trend"></div><h3 class="sec">Most downtime (window)</h3><div id="eq-worst"></div></div>
+</div>
+</div>
+
+<div data-panel="eq:inv" hidden>
+<div class="row"><div><label for="eq-q">Search name, ID, serial, department</label><input id="eq-q" type="search" placeholder="e.g. infusion, ICU, GNL-EQ-0003"></div>
+<div style="flex:0 1 200px"><label for="eq-fs">Status</label><select id="eq-fs"><option value="">All</option></select></div>
+<div style="flex:0 1 200px"><label for="eq-fp">PM state</label><select id="eq-fp"><option value="">All</option><option>Overdue</option><option>Due soon</option><option>Scheduled</option></select></div></div>
+<p class="statl" id="eq-count"></p>
+<div class="scroll"><table class="stack" id="eq-tab"><thead><tr><th>ID</th><th>Equipment</th><th>Department</th><th>Status</th><th>Next PM</th><th></th></tr></thead><tbody></tbody></table></div>
+<div class="card sec" id="eq-detail" hidden></div>
+</div>
+
+<div data-panel="eq:reg" hidden>
+<form class="card" id="eq-form" novalidate>
+<h3 id="eq-ftitle">Register new equipment</h3>
+<input type="hidden" id="ef-id">
+<div class="row"><div><label for="ef-name">Equipment name *</label><input id="ef-name" required maxlength="80"></div><div><label for="ef-category">Category *</label><input id="ef-category" required maxlength="40" list="eq-cats"></div></div>
+<datalist id="eq-cats"><option>Monitoring</option><option>Therapeutic</option><option>Life support</option><option>Imaging</option><option>Laboratory</option><option>Sterilisation</option><option>Diagnostic</option><option>Respiratory</option></datalist>
+<div class="row"><div><label for="ef-manufacturer">Manufacturer</label><input id="ef-manufacturer" maxlength="60"></div><div><label for="ef-model">Model</label><input id="ef-model" maxlength="40"></div><div><label for="ef-serial">Serial number *</label><input id="ef-serial" required maxlength="40"></div></div>
+<div class="row"><div><label for="ef-department">Department *</label><input id="ef-department" required maxlength="40"></div><div><label for="ef-location">Location</label><input id="ef-location" maxlength="60"></div></div>
+<div class="row"><div><label for="ef-status">Status</label><select id="ef-status"></select></div><div><label for="ef-risk">Risk class</label><select id="ef-risk"></select></div><div><label for="ef-pmInterval">PM interval (days) *</label><input id="ef-pmInterval" type="number" min="7" max="730" step="1" value="180" required></div></div>
+<div class="row"><div><label for="ef-installDate">Installation date *</label><input id="ef-installDate" type="date" required></div><div><label for="ef-lastPM">Last preventive maintenance</label><input id="ef-lastPM" type="date"></div></div>
+<label for="ef-notes">Notes</label><textarea id="ef-notes" rows="2" maxlength="300"></textarea>
+<div class="msg err" id="ef-err" role="alert"></div><div class="msg ok" id="ef-ok" role="status"></div>
+<div class="btns"><button class="btn" type="submit" id="ef-save">Save equipment</button><button class="btn ghost" type="button" id="ef-new">Clear form</button></div>
+</form>
+</div>
+
+<div data-panel="eq:mnt" hidden>
+<div class="g2">
+<div class="card"><h3>Preventive maintenance due</h3><div id="eq-due"></div></div>
+<form class="card" id="ev-form" novalidate>
+<h3>Log maintenance, breakdown or repair</h3>
+<label for="ev-eq">Equipment</label><select id="ev-eq"></select>
+<div class="row"><div><label for="ev-type">Record type</label><select id="ev-type"><option>Breakdown</option><option>Repair</option><option>PM</option></select></div>
+<div><label for="ev-status">Set equipment status to</label><select id="ev-status"><option value="">Leave unchanged</option></select></div></div>
+<div class="row"><div><label for="ev-start">Start / reported *</label><input id="ev-start" type="datetime-local" required></div><div><label for="ev-end">End / resolved (breakdowns)</label><input id="ev-end" type="datetime-local"></div></div>
+<label for="ev-desc">Description *</label><textarea id="ev-desc" rows="2" maxlength="300" required></textarea>
+<label for="ev-tech">Technician / engineer</label><input id="ev-tech" maxlength="60">
+<div class="msg err" id="ev-err" role="alert"></div><div class="msg ok" id="ev-ok" role="status"></div>
+<div class="btns"><button class="btn" type="submit">Save record</button></div>
+</form>
+</div>
+<div class="card sec"><h3>Open breakdowns</h3><div id="eq-open"></div></div>
+</div>
+
+<div data-panel="eq:rep" hidden>
+<div class="g2">
+<div class="card"><h3>Export</h3><p>Download a CSV where your browser allows it, or copy it and paste into Excel or Google Sheets.</p>
+<div class="btns"><button class="btn small" type="button" data-exp="inv">Inventory CSV</button><button class="btn small" type="button" data-exp="ev">Maintenance history CSV</button><button class="btn small ghost" type="button" data-exp="json">Full backup (JSON)</button></div>
+<div class="msg ok" id="ex-ok" role="status"></div>
+<label for="ex-out">Export text</label><textarea id="ex-out" rows="8" readonly></textarea></div>
+<div class="card"><h3>Restore or reset</h3><label for="ex-in">Paste a JSON backup</label><textarea id="ex-in" rows="6"></textarea>
+<div class="msg err" id="ex-err" role="alert"></div>
+<div class="btns"><button class="btn small" type="button" id="ex-restore">Restore backup</button><button class="btn small danger" type="button" id="ex-reset">Reset to demonstration data</button></div>
+<p class="statl" id="ex-reset-q"></p></div>
+</div>
+<div class="card sec"><h3>Method</h3><ul><li><b>Downtime</b>: hours from a breakdown being reported to being resolved; open breakdowns count up to now.</li><li><b>MTTR</b>: mean downtime of resolved breakdowns.</li><li><b>MTBF</b>: (fleet operating hours in the window − downtime) ÷ number of breakdowns.</li><li><b>Availability</b>: 1 − downtime ÷ fleet hours, for equipment not decommissioned.</li><li><b>PM due</b>: last PM (or installation) + interval; “due soon” within 14 days. Intervals should follow the manufacturer and local policy (see WHO, <em>Medical equipment maintenance programme overview</em>, WHO Medical device technical series, 2011).</li></ul></div>
+</div>
+</div></section>
